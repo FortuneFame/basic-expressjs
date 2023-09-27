@@ -1,28 +1,28 @@
 const express = require('express');
+const path = require('path')
 const app = express();
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-    res.status(200).send(`
-        <h1>Home page</h1>
-        <a href="/about">Go to About page</a>    
-    `)
+    res.status(200).sendFile(path.resolve(__dirname, './public/index.html'))
 });
 
 app.get('/about', (req, res) => {
-    res.status(200).send(`
-        <h1>About page</h1>
-        <a href="/">Go to Home page</a>
-    `)
+    res.status(200).sendFile(path.resolve(__dirname, './public/about.html'))
+})
+
+app.get('/style.css', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'public', 'style.css'))
+})
+
+app.get('/Expressjs.svg', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'public', 'Expressjs.svg'))
 })
 
 app.all('*', (req, res) => {
-    res.status(404).send(`
-        <h1>404 Not Found</h1>
-        <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-        <a href="/">Return to Home Page</a>
-    `)
+    res.status(404).sendFile(path.resolve(__dirname, './public/404.html'))
 })
+
 
 app.listen(PORT, () => {
     console.log(`Server is running: http://localhost:${PORT}/`)
